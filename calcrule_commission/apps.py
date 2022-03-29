@@ -6,19 +6,19 @@ from calculation.apps import CALCULATION_RULES
 from core.abs_calculation_rule import AbsCalculationRule
 
 
-MODULE_NAME = "calcrule_commision"
+MODULE_NAME = "calcrule_commission"
 DEFAULT_CFG = {}
 
 
 def read_all_calculation_rules():
     """function to read all calculation rules from that module"""
-    for name, cls in inspect.getmembers(importlib.import_module("calcrule_commision.calculation_rule"), inspect.isclass):
+    for name, cls in inspect.getmembers(importlib.import_module("calcrule_commission.calculation_rule"), inspect.isclass):
         if cls.__module__.split('.')[1] == 'calculation_rule':
             CALCULATION_RULES.append(cls)
             cls.ready()
 
 
-class CalcruleCommisionConfig(AppConfig):
+class CalcruleCommissionConfig(AppConfig):
     name = MODULE_NAME
 
     def ready(self):

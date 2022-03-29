@@ -1,4 +1,4 @@
-# openimis-be-calcrule_commision_py
+# openimis-be-calcrule_commission_py
 This repository holds the files of the openIMIS backend calculation rule commision reference module.
 It is dedicated to be deployed as a module of [openimis-be_py](https://github.com/openimis/openimis-be_py). It is an 
 extended part of calculation module [openimis-be-calculation_py](https://github.com/openimis/openimis-be-calculation_py) 

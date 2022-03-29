@@ -4,10 +4,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from gettext import gettext as _
 
-from calcrule_commision.apps import AbsCalculationRule
-from calcrule_commision.config import CLASS_RULE_PARAM_VALIDATION, \
+from calcrule_commission.apps import AbsCalculationRule
+from calcrule_commission.config import CLASS_RULE_PARAM_VALIDATION, \
     DESCRIPTION_CONTRIBUTION_VALUATION, FROM_TO
-from calcrule_commision.converters import \
+from calcrule_commission.converters import \
     BatchRunToBillConverter, PremiumToBillItemConverter
 from contribution_plan.models import PaymentPlan
 from core.signals import *
@@ -18,7 +18,7 @@ from policy.models import Policy
 from product.models import Product
 
 
-class CommisionCalculationRule(AbsCalculationRule):
+class CommissionCalculationRule(AbsCalculationRule):
     version = 1
     uuid = "a64c5d26-ed8e-42de-8bdd-3b52e806c3a8"
     calculation_rule_name = "payment: commision"
