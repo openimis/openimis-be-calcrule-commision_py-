@@ -21,7 +21,7 @@ from product.models import Product
 class CommissionCalculationRule(AbsCalculationRule):
     version = 1
     uuid = "a64c5d26-ed8e-42de-8bdd-3b52e806c3a8"
-    calculation_rule_name = "payment: commision"
+    calculation_rule_name = "payment: commission"
     description = DESCRIPTION_CONTRIBUTION_VALUATION
     impacted_class_parameter = CLASS_RULE_PARAM_VALIDATION
     date_valid_from = datetime.datetime(2000, 1, 1)
