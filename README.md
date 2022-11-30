@@ -1,9 +1,11 @@
-# openimis-be-calcrule_commission_py
-This repository holds the files of the openIMIS backend calculation rule commision reference module.
-It is dedicated to be deployed as a module of [openimis-be_py](https://github.com/openimis/openimis-be_py). It is an 
-extended part of calculation module [openimis-be-calculation_py](https://github.com/openimis/openimis-be-calculation_py) 
-and therefore that module is dependent on this core calculation module. This module contains additional calculation rules. 
+# calcrule to calculate the EO commission calcultion
 
-## Models
-  - None (using no database approach for CalculationRule) - Calculation Rule is saved by defining class 
-    extending the ABSCalculationClass from core module.
+## description
+
+This calculation will, for the selected level and product, calculate how much the insurance need to pay the commission to EO
+
+it creates a bill based on the commissions part of the BR 
+
+##design 
+
+https://openimis.atlassian.net/wiki/spaces/OP/pages/3045818369/Payment+plan+calculation+rule+Commission
