@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from gettext import gettext as _
 
-from calcrule_commission.apps import AbsCalculationRule
+from calcrule_commission.apps import AbsStrategy
 from calcrule_commission.config import CLASS_RULE_PARAM_VALIDATION, \
     DESCRIPTION_CONTRIBUTION_VALUATION, FROM_TO
 from calcrule_commission.converters import \
@@ -18,7 +18,7 @@ from policy.models import Policy
 from product.models import Product
 
 
-class CommissionCalculationRule(AbsCalculationRule):
+class CommissionCalculationRule(AbsStrategy):
     version = 1
     uuid = "a64c5d26-ed8e-42de-8bdd-3b52e806c3a8"
     calculation_rule_name = "payment: commission"
@@ -31,27 +31,6 @@ class CommissionCalculationRule(AbsCalculationRule):
     type = "account_payable"
     sub_type = "commissions"
 
-    signal_get_rule_name = Signal([])
-    signal_get_rule_details = Signal([])
-    signal_get_param = Signal([])
-    signal_get_linked_class = Signal([])
-    signal_calculate_event = Signal([])
-    signal_convert_from_to = Signal([])
-
-    @classmethod
-    def ready(cls):
-        now = datetime.datetime.now()
-        condition_is_valid = (now >= cls.date_valid_from and now <= cls.date_valid_to) \
-            if cls.date_valid_to else (now >= cls.date_valid_from and cls.date_valid_to is None)
-        if condition_is_valid:
-            if cls.status == "active":
-                # register signals getParameter to getParameter signal and getLinkedClass ot getLinkedClass signal
-                cls.signal_get_rule_name.connect(cls.get_rule_name, dispatch_uid="on_get_rule_name_signal")
-                cls.signal_get_rule_details.connect(cls.get_rule_details, dispatch_uid="on_get_rule_details_signal")
-                cls.signal_get_param.connect(cls.get_parameters, dispatch_uid="on_get_param_signal")
-                cls.signal_get_linked_class.connect(cls.get_linked_class, dispatch_uid="on_get_linked_class_signal")
-                cls.signal_calculate_event.connect(cls.run_calculation_rules, dispatch_uid="on_calculate_event_signal")
-                cls.signal_convert_from_to.connect(cls.run_convert, dispatch_uid="on_convert_from_to")
 
     @classmethod
     def active_for_object(cls, instance, context, type="account_payable", sub_type="commissions"):
@@ -104,16 +83,8 @@ class CommissionCalculationRule(AbsCalculationRule):
 
     @classmethod
     def get_linked_class(cls, sender, class_name, **kwargs):
-        list_class = []
-        if class_name != None:
-            model_class = ContentType.objects.filter(model__iexact=class_name).first()
-            if model_class:
-                model_class = model_class.model_class()
-                list_class = list_class + \
-                             [f.remote_field.model.__name__ for f in model_class._meta.fields
-                              if f.get_internal_type() == 'ForeignKey' and f.remote_field.model.__name__ != "User"]
-        else:
-            list_class.append("Calculation")
+        list_class = super().get_linked_class(sender, class_name, **kwargs)
+
         # because we have calculation in PaymentPlan
         #  as uuid - we have to consider this case
         if class_name == "PaymentPlan":
